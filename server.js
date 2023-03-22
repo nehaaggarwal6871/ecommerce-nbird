@@ -14,6 +14,10 @@ import path from "path";
 // configure env (.env in root file)
 dotenv.config();
 
+// esmodule fixed
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // database config
 connectDB();
 
@@ -32,10 +36,9 @@ app.use("/api/v1/product", productRoutes);
 app.use(express.static(path.join(__dirname, "./client/build")));
 
 // rest api
-app.get("/", (req, res) => {
-  res.send({
-    msg: " Welcome to ecommerce app",
-  });
+
+app.use("*", function (req, res) {
+  res.sendFile(path.__dirname, "./client/build/index.html");
 });
 
 // PORT
